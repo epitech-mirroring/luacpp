@@ -29,6 +29,7 @@ class StellarForgeCommon(ConanFile):
 
     def requirements(self):
         self.requires("lua/5.4.7")
+        self.requires("gtest/1.15.0")
 
     def generate(self):
         deps = CMakeDeps(self)

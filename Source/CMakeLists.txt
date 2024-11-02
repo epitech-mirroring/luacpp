@@ -103,40 +103,23 @@ install(FILES
 # Testing
 #########
 enable_testing()
-# Install Google test library
-set(GOOGLETEST_INSTALL "${CMAKE_CURRENT_BINARY_DIR}/googletest-install")
-set(GOOGLETEST_INCLUDE "${GOOGLETEST_INSTALL}/include")
-include(ExternalProject)
-ExternalProject_Add(googletest
-        GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG main
-        SOURCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/googletest-src"
-        BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/googletest-build"
-        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${GOOGLETEST_INSTALL} -DINCLUDE_INSTALL_DIR=${GOOGLETEST_INSTALL}
-        TEST_COMMAND ""
-)
-link_directories(${GOOGLETEST_INSTALL}/lib)
-include_directories(${GOOGLETEST_INSTALL}/include)
+find_package(GTest REQUIRED)
 include(GoogleTest)
 
 add_executable(testLuaContext UnitTest/TestLuaContext.cpp)
-add_dependencies(testLuaContext googletest)
-target_link_libraries(testLuaContext luacpp_static gtest_main gtest pthread)
+target_link_libraries(testLuaContext luacpp_static GTest::gtest_main gtest::gtest pthread)
 gtest_discover_tests(testLuaContext)
 
 add_executable(testLuaTypes UnitTest/TestLuaTypes.cpp)
-add_dependencies(testLuaTypes googletest)
-target_link_libraries(testLuaTypes luacpp_static gtest_main gtest pthread)
+target_link_libraries(testLuaTypes luacpp_static GTest::gtest_main gtest::gtest pthread)
 gtest_discover_tests(testLuaTypes)
 
 add_executable(testLuaCompiler UnitTest/TestLuaCompiler.cpp)
-add_dependencies(testLuaCompiler googletest)
-target_link_libraries(testLuaCompiler luacpp_static gtest_main gtest pthread)
+target_link_libraries(testLuaCompiler luacpp_static GTest::gtest_main gtest::gtest pthread)
 gtest_discover_tests(testLuaCompiler)
 
 add_executable(testLuaMetaObject UnitTest/TestLuaMetaObject.cpp)
-add_dependencies(testLuaMetaObject googletest)
-target_link_libraries(testLuaMetaObject luacpp_static gtest_main gtest pthread)
+target_link_libraries(testLuaMetaObject luacpp_static GTest::gtest_main gtest::gtest pthread)
 gtest_discover_tests(testLuaMetaObject)
 
 

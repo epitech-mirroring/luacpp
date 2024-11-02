@@ -33,3 +33,6 @@ debug
 *.exe
 *.out
 *.app
+
+Source/build
+Source/CMakeUserPresets.json
