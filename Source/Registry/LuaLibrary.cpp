@@ -124,7 +124,8 @@ int LuaLibrary::RegisterFunctions(LuaState &L)
     luaL_newmetatable(L, metaTableName.c_str());
 
 	// create table of all meta-methods:
-	luaL_Reg arrayMetaMeth[(this->metaMethods.size())+1];
+	//luaL_Reg arrayMetaMeth[(this->metaMethods.size())+1];
+    luaL_Reg arrayMetaMeth[1024];
 	int count = 0;
 
 	for (auto & x : metaMethods) {
@@ -138,7 +139,8 @@ int LuaLibrary::RegisterFunctions(LuaState &L)
 	arrayMetaMeth[count].func = NULL;
 
 	// create table of all functions:
-	luaL_Reg arraylib_f[(this->functions.size())+1];
+	//luaL_Reg arraylib_f[(this->functions.size())+1];
+    luaL_Reg arraylib_f[1024];
 	count = 0;
 
 	for (auto & x : functions) {
@@ -152,7 +154,8 @@ int LuaLibrary::RegisterFunctions(LuaState &L)
 	arraylib_f[count].func = NULL;
 
 	// create table of all methods:
-	luaL_Reg arraylib_m[(this->methods.size())+1];
+	//luaL_Reg arraylib_m[(this->methods.size())+1];
+    luaL_Reg arraylib_m[1024];
 	count = 0;
 
 	for (auto & x : methods) {
