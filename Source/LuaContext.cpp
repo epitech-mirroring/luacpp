@@ -109,14 +109,14 @@ void LuaContext::CompileFolder(const std::string &path, const std::string &prefi
 std::string convert(const std::wstring& wstr)
 {
 	const int BUFF_SIZE = 7;
-	if (MB_CUR_MAX >= BUFF_SIZE) throw std::invalid_argument("BUFF_SIZE too small");
+	if (MB_CUR_MAX >= BUFF_SIZE) throw std::runtime_error("BUFF_SIZE too small");
 	std::string result;
 	bool shifts = std::wctomb(nullptr, 0);  // reset the conversion state
 	for (const wchar_t wc : wstr)
 	{
 		std::array<char, BUFF_SIZE> buffer;
 		const int ret = std::wctomb(buffer.data(), wc);
-		if (ret < 0) throw std::invalid_argument("inconvertible wide characters in the current locale");
+		if (ret < 0) throw std::runtime_error("inconvertible wide characters in the current locale");
 		buffer[ret] = '\0';  // make 'buffer' contain a C-style string
 		result = result + std::string(buffer.data());
 	}
