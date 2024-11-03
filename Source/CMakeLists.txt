@@ -29,31 +29,12 @@ include(GNUInstallDirs)
 
 find_package(Lua REQUIRED)
 
-include_directories(example_HelloLua PRIVATE ${LUA_INCLUDE_DIR})
-
 add_library(luacpp SHARED ${SOURCE_FILES})
 add_library(luacpp_static STATIC ${SOURCE_FILES})
 set_target_properties(luacpp_static PROPERTIES OUTPUT_NAME luacpp)
 target_link_libraries(luacpp lua::lua)
 target_link_libraries(luacpp_static lua::lua)
 
-
-##########
-# Examples
-##########
-add_executable(example_helloworld Example/example_helloworld.cpp)
-target_link_libraries(example_helloworld luacpp)
-
-add_executable(example_LuaLibrary Example/example_LuaLibrary.cpp)
-target_link_libraries(example_LuaLibrary luacpp)
-
-add_executable(example_LuaMetaObject Example/example_LuaMetaObject.cpp)
-target_link_libraries(example_LuaMetaObject luacpp)
-
-add_custom_command(TARGET example_helloworld POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/Example/hello.lua ${PROJECT_BINARY_DIR}/hello.lua
-        COMMENT "${PROJECT_BINARY_DIR}/hello.lua copied to build"
-)
 
 #########
 # Install
