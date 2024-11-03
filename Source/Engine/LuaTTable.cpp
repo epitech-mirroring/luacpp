@@ -123,7 +123,7 @@ void LuaTTable::PopValue(LuaState &L, int idx) {
 		idx = lua_gettop(L) + idx + 1; // Convert to absolute stack position by deducting the negative index from the top position
 	}
 	if (idx <= 0) {
-		throw std::std::runtime_error("The stack position " + patch::to_string(idx) +" is invalid.");
+		throw std::runtime_error("The stack position " + patch::to_string(idx) +" is invalid.");
 	}
 	if (lua_istable(L, idx) == 1) {
 		table.clear();
@@ -164,7 +164,7 @@ void LuaTTable::PopValue(LuaState &L, int idx) {
 			lua_pop(L,1); // Remove the value from the stack so lua_next can continue
 		}
 	} else {
-		throw std::std::runtime_error("The value at the index " + patch::to_string(idx) +" is not a LUA_TTABLE");
+		throw std::runtime_error("The value at the index " + patch::to_string(idx) +" is not a LUA_TTABLE");
 	}
 }
 

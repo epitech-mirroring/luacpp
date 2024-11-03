@@ -27,6 +27,9 @@
 #include <filesystem>
 
 #include "LuaContext.hpp"
+
+#include <array>
+
 #include "LuaVersion.hpp"
 
 using namespace LuaCpp;
@@ -103,6 +106,23 @@ void LuaContext::CompileFolder(const std::string &path, const std::string &prefi
 	CompileFolder(path, prefix, false);
 }
 
+std::string convert(const std::wstring& wstr)
+{
+	const int BUFF_SIZE = 7;
+	if (MB_CUR_MAX >= BUFF_SIZE) throw std::invalid_argument("BUFF_SIZE too small");
+	std::string result;
+	bool shifts = std::wctomb(nullptr, 0);  // reset the conversion state
+	for (const wchar_t wc : wstr)
+	{
+		std::array<char, BUFF_SIZE> buffer;
+		const int ret = std::wctomb(buffer.data(), wc);
+		if (ret < 0) throw std::invalid_argument("inconvertible wide characters in the current locale");
+		buffer[ret] = '\0';  // make 'buffer' contain a C-style string
+		result = result + std::string(buffer.data());
+	}
+	return result;
+}
+
 void LuaContext::CompileFolder(const std::string &path, const std::string &prefix, bool recompile) {
 	for (const auto &entry : std::filesystem::directory_iterator(path)) {
 		if (entry.is_regular_file()){
@@ -110,9 +130,10 @@ void LuaContext::CompileFolder(const std::string &path, const std::string &prefi
 			if (path.extension() == ".lua") {
 				try {
 					if (prefix == "") {
-						CompileFile(path.stem().native() ,path, recompile);
+						CompileFile(convert(path.stem().native()) ,path.string(), recompile);
 					} else {
-						CompileFile(prefix+"."+path.stem().native() ,path, recompile);
+						std::string str = prefix + "." + convert(path.stem().native());
+						CompileFile(str ,path.string(), recompile);
 					}
 				} catch (std::logic_error &e) {
 				}
