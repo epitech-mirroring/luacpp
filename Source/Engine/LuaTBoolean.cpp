@@ -42,7 +42,7 @@ void LuaTBoolean::PopValue(LuaState &L, int idx) {
 	if (lua_type(L, idx) == LUA_TBOOLEAN) {
 		value = lua_toboolean(L,idx);
 	} else {
-		throw std::invalid_argument("The value at the stack position " + std::to_string(idx) + " is not LUA_TBOOLEAN");
+		throw std::runtime_error("The value at the stack position " + patch::to_string(idx) + " is not LUA_TBOOLEAN");
 	}
 }
 

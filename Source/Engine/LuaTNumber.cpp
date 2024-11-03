@@ -42,12 +42,12 @@ void LuaTNumber::PopValue(LuaState &L, int idx) {
 	if (lua_type(L, idx) == LUA_TNUMBER) {
 		value = lua_tonumber(L,idx);
 	} else {
-		throw std::invalid_argument("The value at the stack position " + std::to_string(idx) + " is not LUA_TNUMBER");
+		throw std::runtime_error("The value at the stack position " + patch::to_string(idx) + " is not LUA_TNUMBER");
 	}
 }
 
 std::string LuaTNumber::ToString() const {
-	return std::to_string(value);
+	return patch::to_string(value);
 }
 
 double LuaTNumber::getValue() const {

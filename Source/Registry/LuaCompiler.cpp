@@ -45,7 +45,7 @@ void inline _checkErrorAndThrow(LuaState &L, int error) {
 				throw std::logic_error(lua_tostring(L,1));
 				break;
 			default:
-				throw std::runtime_error("Unknown error code "+ std::to_string(error) + " :" +lua_tostring(L,1));
+				throw std::runtime_error("Unknown error code "+ patch::to_string(error) + " :" +lua_tostring(L,1));
 		}
 	}
 }

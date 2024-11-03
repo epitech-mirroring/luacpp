@@ -55,10 +55,10 @@ void LuaTUserData::PopValue(LuaState &L, int idx) {
 		if (_userdata == userdata) {
 			_retreiveData();
 		} else {
-			throw std::domain_error("The value on the stack "+std::to_string(idx)+" has different pointer to  the userdata buffer.");
+			throw std::domain_error("The value on the stack "+patch::to_string(idx)+" has different pointer to  the userdata buffer.");
 		}
 	} else {
-		throw std::invalid_argument("The value at the stack position " + std::to_string(idx) + " is not LUA_TNUMBER");
+		throw std::std::runtime_error("The value at the stack position " + patch::to_string(idx) + " is not LUA_TNUMBER");
 	}
 }
 

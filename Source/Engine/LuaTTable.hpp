@@ -45,11 +45,10 @@ namespace LuaCpp {
 			 * handling.
 			 */
 			class Key {
-			  private:
-				bool _isNumber;
+            public:
+                bool _isNumber;
 				std::string str_val;
 				int int_val;
-			  public:
 				explicit Key(int value) : _isNumber(true), str_val(), int_val(value) {}
 				explicit Key(std::string value) : _isNumber(false), str_val(std::move(value)), int_val(0) {}
 				explicit Key(const char *value) : _isNumber(false), str_val(std::string(value)), int_val(0) {}
