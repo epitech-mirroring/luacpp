@@ -106,6 +106,7 @@ void LuaContext::CompileFolder(const std::string &path, const std::string &prefi
 	CompileFolder(path, prefix, false);
 }
 
+#ifdef WIN32
 std::string convert(const std::wstring& wstr)
 {
 	const int BUFF_SIZE = 7;
@@ -141,6 +142,26 @@ void LuaContext::CompileFolder(const std::string &path, const std::string &prefi
 		}
 	}
 }
+
+#else
+void LuaContext::CompileFolder(const std::string &path, const std::string &prefix, bool recompile) {
+	for (const auto &entry : std::filesystem::directory_iterator(path)) {
+		if (entry.is_regular_file()){
+			std::filesystem::path path = entry.path();
+			if (path.extension() == ".lua") {
+				try {
+					if (prefix == "") {
+						CompileFile(path.stem().native() ,path.string(), recompile);
+					} else {
+						CompileFile(prefix+"."+path.stem().native() ,path.string(), recompile);
+					}
+				} catch (std::logic_error &e) {
+				}
+			}
+		}
+	}
+}
+#endif
 
 void LuaContext::CompileStringAndRun(const std::string &code) {
 	registry.CompileAndAddString("default", code, true);
